@@ -1,15 +1,15 @@
 # Japanese Tokenizer Microservice
 
-A microservice that makes it easy to decompose Japanese texts. Useful for making word clouds, or getting the most important words from a sentence.
+A microservice that makes it easy to tokenize Japanese texts. Useful for making word clouds, analyzing texts, or getting the most important words from a sentence.
 
-It uses Flask (Python lightweight web app framework), and MeCab for text segmentation.
+It uses Flask (lightweight Python web framework), and MeCab for text segmentation.
 
 TODO: Use a better example (longer text from Wikipedia or something).
 
 ```
 PUT /important_words
 {
-  "text": "説明 書の例文を付けてください。"
+  "text": "説明書の例文を付けてください。"
 }
 ```
 
@@ -29,6 +29,21 @@ Install dependencies:
 
 ```bash
 pip3 install -r requirements.txt
+```
+
+Install mecab.
+
+Test mecab by executing this command:
+
+```bash
+echo "辞書" | mecab
+```
+
+And the result should be:
+
+```bash
+辞書    名詞,一般,*,*,*,*,辞書,ジショ,ジショ
+EOS
 ```
 
 TODO: Explanation related to dictionary files (but I want to include them in the repository, so
