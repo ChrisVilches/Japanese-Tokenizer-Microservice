@@ -31,18 +31,19 @@ Install dependencies:
 pip3 install -r requirements.txt
 ```
 
-Install mecab.
+Install mecab by following instructions here https://qiita.com/ekzemplaro/items/c98c7f6698f130b55d53 and ignore everything below the text `python3 で使えるようにする` in the article (it's not necessary to execute those commands).
 
 Test mecab by executing this command:
 
 ```bash
-echo "辞書" | mecab
+echo "特急はくたか" | mecab
 ```
 
 And the result should be:
 
 ```bash
-辞書    名詞,一般,*,*,*,*,辞書,ジショ,ジショ
+特急    名詞,一般,*,*,*,*,特急,トッキュウ,トッキュー
+はくたか        名詞,固有名詞,一般,*,*,*,はくたか,ハクタカ,ハクタカ
 EOS
 ```
 
