@@ -2,6 +2,13 @@ import MeCab # TODO: I don't have any dictionary file in here, where is the file
 import re
 
 class JapaneseTokenizer:
+  # These are indices in this array:
+  # ['名詞', '一般', '*', '*', '*', '*', '猫', 'ネコ', 'ネコ']
+  WORD_TYPE_INDEX = 0
+  FULL_WORD_INDEX = 6
+
+  # TODO: Make at least stop words configurable from a file.
+
   STOP_WORDS = set({
     'こと',
     'よう',
@@ -31,8 +38,9 @@ class JapaneseTokenizer:
     node = self.tagger.parseToNode(text)
     word_list = []
     while node:
-      word_type = node.feature.split(',')[0]
-      word = node.surface
+      parts = node.feature.split(',')
+      word_type = parts[self.WORD_TYPE_INDEX]
+      word = parts[self.FULL_WORD_INDEX] # Used to be node.surface, but there's no documentation about what it does.
       node = node.next
 
       if word in self.STOP_WORDS:

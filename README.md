@@ -27,7 +27,7 @@ flask run
 And test using:
 
 ```bash
-curl -X POST http://localhost:45678/tokenize -d "{\"text\": \"猫が可愛い\"}" -H "Content-Type: application/json"
+curl -X POST http://localhost:45678/important_words -d "{\"text\": \"猫が可愛かった\"}" -H "Content-Type: application/json"
 ```
 
 Result should be:

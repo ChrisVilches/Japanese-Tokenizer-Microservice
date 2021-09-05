@@ -24,7 +24,7 @@ class TokenizeResource(Resource):
       return { 'error': "'text' key missing in JSON" }, STATUS_UNPROCESSABLE_ENTITY
     return { 'result': japanese_tokenizer.extract_word_list(text) }
 
-api.add_resource(TokenizeResource, '/tokenize')
+api.add_resource(TokenizeResource, '/important_words')
 
 if __name__ == '__main__':
   app.run(debug=True)
