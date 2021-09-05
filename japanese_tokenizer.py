@@ -44,7 +44,7 @@ class JapaneseTokenizer:
       word = parts[self.FULL_WORD_INDEX] # Used to be node.surface, but there's no documentation about what it does.
       node = node.next
 
-      if word in self.STOP_WORDS:
+      if word in self.STOP_WORDS or word == '*':
         continue
       if word_type in self.ALLOWED_TYPES:
         word_list.append(word)

@@ -9,7 +9,7 @@ TODO: Use a better example (longer text from Wikipedia or something).
 ```
 PUT /important_words
 {
-  "text": "説明書の例文を付けてください。"
+  "text": "つんくは、日本の音楽家、作詞家、作曲家、実業家。総合エンターテインメント事務所TNX株式会社の代表取締役社長。公式サイトでは自身を「総合エンターテインメントプロデューサー」としている。"
 }
 ```
 
@@ -31,24 +31,20 @@ Install dependencies:
 pip3 install -r requirements.txt
 ```
 
-Install mecab by following instructions here https://qiita.com/ekzemplaro/items/c98c7f6698f130b55d53 and ignore everything below the text `python3 で使えるようにする` in the article (it's not necessary to execute those commands).
+Install mecab and dictionaries. There are many ways, but here's one that can help: https://qiita.com/ekzemplaro/items/c98c7f6698f130b55d53
 
 Test mecab by executing this command:
 
 ```bash
-echo "特急はくたか" | mecab
+echo "辞書" | mecab
 ```
 
 And the result should be:
 
 ```bash
-特急    名詞,一般,*,*,*,*,特急,トッキュウ,トッキュー
-はくたか        名詞,固有名詞,一般,*,*,*,はくたか,ハクタカ,ハクタカ
+辞書    名詞,一般,*,*,*,*,辞書,ジショ,ジショ
 EOS
 ```
-
-TODO: Explanation related to dictionary files (but I want to include them in the repository, so
-      that it's not necessary to explain how to do anything).
 
 ## Run app
 
@@ -71,4 +67,21 @@ Result should be:
 {
   "result": ["猫", "可愛い"]
 }
+```
+
+## Possible Errors
+
+### Cannot find mecab path
+
+Sometimes the app fails because it doesn't find mecab. Find and set it using:
+
+```bash
+# Returns its path, in my case /etc/mecabrc
+sudo find / -iname mecabrc
+
+# Set environment variable.
+export MECABRC='/etc/mecabrc'
+
+# Run app.
+flask run
 ```
