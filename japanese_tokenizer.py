@@ -20,6 +20,7 @@ class JapaneseTokenizer:
   ALLOWED_TYPES = set([
     '名詞',
     '副詞',
+    '動詞',
     '形容詞'#, '連体詞', '感動詞'
   ])
 
