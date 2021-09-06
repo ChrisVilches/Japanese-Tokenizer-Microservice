@@ -33,6 +33,3 @@ class TokenizeResource(Resource):
     return { 'result': result }
 
 api.add_resource(TokenizeResource, '/important_words')
-
-# if __name__ == '__main__':
-#   app.run(debug=True)
