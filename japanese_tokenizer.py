@@ -1,28 +1,13 @@
-import MeCab # TODO: I don't have any dictionary file in here, where is the file configured at?
-import re
+import MeCab
+from word import Word
+from util import Util
 
 class JapaneseTokenizer:
-  # These are indices in this array:
-  # ['名詞', '一般', '*', '*', '*', '*', '猫', 'ネコ', 'ネコ']
-  WORD_TYPE_INDEX = 0
-  FULL_WORD_INDEX = 6
+  STOP_WORDS_CONFIG_FILE = 'config/stop_words.txt'
+  ALLOWED_TYPES_CONFIG_FILE = 'config/allowed_types.txt'
 
-  # TODO: Make at least stop words configurable from a file.
-
-  STOP_WORDS = set({
-    'こと',
-    'よう',
-    'ん',
-    'の',
-    'は'
-  })
-
-  ALLOWED_TYPES = set([
-    '名詞',
-    '副詞',
-    '動詞',
-    '形容詞'#, '連体詞', '感動詞'
-  ])
+  stop_words = set([])
+  allowed_types = set([])
 
   tagger = None
 
@@ -30,22 +15,50 @@ class JapaneseTokenizer:
     print("Creating new tokenizer object.")
     self.tagger = MeCab.Tagger()
     self.tagger.parse('')
+    self.read_stop_words()
+    self.read_allowed_types()
 
-  def clean_text(self, text):
-    return re.sub(r':[a-zA-Z_-]+:', '', text)
+  def read_stop_words(self):
+    self.stop_words = Util.file_lines_to_set(self.STOP_WORDS_CONFIG_FILE)
+    print('Stop words:')
+    print(self.stop_words)
 
-  def extract_word_list(self, text):
-    text = self.clean_text(text)
+  def read_allowed_types(self):
+    self.allowed_types = Util.file_lines_to_set(self.ALLOWED_TYPES_CONFIG_FILE)
+    print('Allowed types:')
+    print(self.allowed_types)
+
+  def should_add_word(self, word):
+    if word is None or word.word in self.stop_words:
+      return False
+
+    return word.word_type in self.allowed_types
+
+  def text_to_word_list(self, text):
+    text = Util.clean_text(text)
     node = self.tagger.parseToNode(text)
     word_list = []
     while node:
       parts = node.feature.split(',')
-      word_type = parts[self.WORD_TYPE_INDEX]
-      word = parts[self.FULL_WORD_INDEX] # Used to be node.surface, but there's no documentation about what it does.
+      word = Word.from_part_of_speech_array(parts)
       node = node.next
 
-      if word in self.STOP_WORDS or word == '*':
-        continue
-      if word_type in self.ALLOWED_TYPES:
+      if self.should_add_word(word):
         word_list.append(word)
     return word_list
+
+  def extract_word_list_only_word(self, text):
+    result_list = []
+    for w in self.text_to_word_list(text):
+      result_list.append(w.word)
+    return result_list
+
+  def extract_word_list_metadata(self, text):
+    result_list = []
+    for w in  self.text_to_word_list(text):
+      result_list.append({
+        'word': w.word,
+        'type': w.word_type,
+        'reading': w.reading
+      })
+    return result_list

@@ -20,11 +20,19 @@ def output_json(data, code, headers):
 class TokenizeResource(Resource):
   def post(self):
     text = request.json.get('text')
+    use_metadata = request.args.get('metadata') == 'true'
+
     if text is None:
       return { 'error': "'text' key missing in JSON" }, STATUS_UNPROCESSABLE_ENTITY
-    return { 'result': japanese_tokenizer.extract_word_list(text) }
+
+    if use_metadata:
+      result = japanese_tokenizer.extract_word_list_metadata(text)
+    else:
+      result = japanese_tokenizer.extract_word_list_only_word(text)
+
+    return { 'result': result }
 
 api.add_resource(TokenizeResource, '/important_words')
 
-if __name__ == '__main__':
-  app.run(debug=True)
+# if __name__ == '__main__':
+#   app.run(debug=True)

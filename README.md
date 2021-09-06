@@ -5,20 +5,36 @@ A microservice that makes it easy to tokenize Japanese texts. Useful for making 
 It uses Flask (lightweight Python web framework), and MeCab for text segmentation.
 
 ```
-PUT /important_words
+POST /important_words
 {
   "text": "プログラミング言語は、その開発の背景や機能などの影響を受け、言語によって得意とする分野は異なります。"
 }
-```
 
-Returns:
+# Result:
 
-```json
 {
   "result": [
     "プログラミング", "言語", "開発", "背景",
     "機能", "影響", "受ける", "言語", "得意",
     "する", "分野", "異なる"
+  ]
+}
+```
+
+Adding `?metadata=true` gives you extra information:
+
+```
+POST /important_words?metadata=true
+{
+  "text": "猫が可愛い"
+}
+
+# Result:
+
+{
+  "result": [
+    {"word": "猫", "type": "名詞", "reading": "ネコ"},
+    {"word": "可愛い", "type": "形容詞", "reading": "カワイイ"}
   ]
 }
 ```
