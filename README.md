@@ -4,8 +4,6 @@ A microservice that makes it easy to tokenize Japanese texts. Useful for making 
 
 It uses Flask (lightweight Python web framework), and MeCab for text segmentation.
 
-TODO: Use a better example (longer text from Wikipedia or something).
-
 ```
 PUT /important_words
 {
